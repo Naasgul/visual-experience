@@ -12,6 +12,7 @@ import {
 import { easing } from "maath";
 import { useSnapshot } from "valtio";
 import { state } from "./store";
+import basic_model from "../public/basic_model.gltf";
 
 export const Display = ({ position = [0, 0, 2.5], fov = 25 }) => (
   <Canvas
@@ -26,7 +27,7 @@ export const Display = ({ position = [0, 0, 2.5], fov = 25 }) => (
     <CameraRig>
       <Backdrop />
       <Center>
-        <HumanModel modelPath="/basic_model.gltf" />
+        <HumanModel modelPath={basic_model} />
       </Center>
     </CameraRig>
   </Canvas>
