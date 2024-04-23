@@ -1,21 +1,12 @@
 import React from "react";
-import { Canvas } from "@react-three/fiber";
-import { useGLTF, OrbitControls } from "@react-three/drei";
-import { Display } from "./Canvas";
-import { Overlay } from "./Overlay";
+import { ThreeScene } from "./ThreeScene";
 
-function HumanModel({ modelPath }: { modelPath: string }) {
-  const { scene } = useGLTF(modelPath, true);
-  return <primitive object={scene} scale={0.1} />;
-}
-
-function ThreeScene() {
+function App() {
   return (
     <>
-      <Display />
-      <Overlay />
+      <ThreeScene />
     </>
   );
 }
 
-export default ThreeScene;
+export default App;
