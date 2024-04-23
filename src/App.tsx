@@ -12,19 +12,9 @@ function HumanModel({ modelPath }: { modelPath: string }) {
 function ThreeScene() {
   return (
     <>
-      {/* <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
-        <ambientLight intensity={1} />
-        <pointLight position={[10, 10, 10]} />
-        <HumanModel modelPath="/basic_model.gltf" />
-        <OrbitControls />
-      </Canvas> */}
       <Display />
       <Overlay />
     </>
-    // <>
-    //   <App />
-    //   <Overlay />
-    // </>
   );
 }
 

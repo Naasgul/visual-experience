@@ -1,3 +1,4 @@
+import React from "react";
 import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
@@ -8,29 +9,35 @@ import {
   Decal,
   Environment,
   Center,
+  OrbitControls,
 } from "@react-three/drei";
 import { easing } from "maath";
 import { useSnapshot } from "valtio";
 import { state } from "./store";
 
-export const Display = ({ position = [0, 0, 2.5], fov = 25 }) => (
-  <Canvas
-    shadows
-    camera={{ position, fov }}
-    gl={{ preserveDrawingBuffer: true }}
-    eventSource={document.getElementById("root")}
-    eventPrefix="client"
-  >
-    <ambientLight intensity={0.5} />
-    <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/potsdamer_platz_1k.hdr" />
-    <CameraRig>
-      <Backdrop />
-      <Center>
-        <HumanModel modelPath="/basic_model.gltf" />
-      </Center>
-    </CameraRig>
-  </Canvas>
-);
+export const Display = ({ position = [0, 0, 2.5], fov = 25 }) => {
+  const basePath = import.meta.env.BASE_URL;
+  const assetPath = `${basePath}basic_model.gltf`;
+  return (
+    <Canvas
+      shadows
+      camera={{ position, fov }}
+      gl={{ preserveDrawingBuffer: true }}
+      eventSource={document.getElementById("root")}
+      eventPrefix="client"
+    >
+      <OrbitControls />
+      <ambientLight intensity={0.5} />
+      <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/potsdamer_platz_1k.hdr" />
+      <CameraRig>
+        <Backdrop />
+        <Center>
+          <HumanModel modelPath={assetPath} />
+        </Center>
+      </CameraRig>
+    </Canvas>
+  );
+};
 
 function HumanModel({ modelPath }) {
   const { scene } = useGLTF(modelPath, true);
