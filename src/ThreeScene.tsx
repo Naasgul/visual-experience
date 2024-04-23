@@ -18,7 +18,7 @@ export const ThreeScene: React.FC<ThreeSceneProps> = ({ position = [0, 0, 2.5], 
       gl={{ preserveDrawingBuffer: true }}
     >
       <ambientLight intensity={2} />
-      <OrbitControls /> {/* Place OrbitControls at the top */}
+      <OrbitControls enableZoom={false} /> {/* Place OrbitControls at the top */}
       <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/potsdamer_platz_1k.hdr" />
       <CameraRig>
         <Backdrop />
