@@ -4,7 +4,6 @@ import { ThreeScene } from "./ThreeScene";
 function App() {
   return (
     <>
-    TEST
       <ThreeScene />
     </>
   );
