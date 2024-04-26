@@ -1,6 +1,7 @@
-import * as THREE from 'three'
-import { GLTF } from 'three-stdlib'
+import * as THREE from "three";
+import { GLTF } from "three-stdlib";
 import { useGLTF } from "@react-three/drei";
+// import { shirt } from "../../public/";
 import React from "react";
 
 interface ShirtProps {
@@ -8,19 +9,22 @@ interface ShirtProps {
 }
 
 const basePath = import.meta.env.BASE_URL;
-const defaultModelPath = `${basePath}shirt_baked_2.glb`;
+const defaultModelPath = `${basePath}/models/shirt_baked_2.glb`;
 
 type GLTFResult = GLTF & {
   nodes: {
-    T_Shirt_male: THREE.Mesh
-  }
+    T_Shirt_male: THREE.Mesh;
+  };
   materials: {
-    lambert1: THREE.MeshStandardMaterial
-  }
-}
+    lambert1: THREE.MeshStandardMaterial;
+  };
+};
 
-const Shirt: React.FC<ShirtProps>  = ({modelPath = defaultModelPath}, props: JSX.IntrinsicElements['group']) => {
-  const { nodes, materials } = useGLTF(modelPath) as GLTFResult
+const Shirt: React.FC<ShirtProps> = (
+  { modelPath = defaultModelPath },
+  props: JSX.IntrinsicElements["group"]
+) => {
+  const { nodes, materials } = useGLTF(modelPath) as GLTFResult;
   return (
     <group {...props} dispose={null}>
       <mesh
@@ -32,9 +36,9 @@ const Shirt: React.FC<ShirtProps>  = ({modelPath = defaultModelPath}, props: JSX
         rotation={[Math.PI / 2, 0, 0]}
       />
     </group>
-  )
-}
+  );
+};
 
-useGLTF.preload('/shirt_baked_2.glb')
+useGLTF.preload(defaultModelPath);
 
-export default Shirt
+export default Shirt;

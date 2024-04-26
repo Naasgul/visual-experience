@@ -9,4 +9,4 @@ HTMLCanvasElement.prototype.getContext = () => {
     fillRect: vi.fn(),
   };
 };
-process.env.BASE_URL = "/";
+process.env.BASE_URL = "";

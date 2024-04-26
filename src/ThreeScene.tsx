@@ -26,12 +26,13 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
       {...canvasProps}
     >
       <ambientLight intensity={2} />
-      <OrbitControls enableZoom={false} /> {/* Place OrbitControls at the top */}
+      <OrbitControls enableZoom={false} />
+      {/* Place OrbitControls at the top */}
       <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/potsdamer_platz_1k.hdr" />
       <CameraRig>
         <Backdrop />
         <Center>
-          <Shirt></Shirt>
+          <Shirt />
         </Center>
       </CameraRig>
     </Canvas>
