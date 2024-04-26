@@ -4,18 +4,26 @@ import { useGLTF, Environment, Center, OrbitControls } from "@react-three/drei";
 import Backdrop from "./three-components/Backdrop";
 import CameraRig from "./three-components/CameraRig";
 import Shirt from "./three-components/Shirt";
+import { extend } from "@react-three/fiber";
+extend({ useGLTF, Environment, Center, OrbitControls, Canvas });
 
 interface ThreeSceneProps {
   position?: [number, number, number];
   fov?: number;
+  canvasProps?: Record<string, any>;
 }
 
-export const ThreeScene: React.FC<ThreeSceneProps> = ({ position = [0, 0, 2.5], fov = 25 }) => {
+const ThreeScene: React.FC<ThreeSceneProps> = ({
+  position = [0, 0, 2.5],
+  fov = 25,
+  canvasProps = {},
+}) => {
   return (
     <Canvas
       shadows
       camera={{ position, fov }}
       gl={{ preserveDrawingBuffer: true }}
+      {...canvasProps}
     >
       <ambientLight intensity={2} />
       <OrbitControls enableZoom={false} /> {/* Place OrbitControls at the top */}
@@ -29,3 +37,5 @@ export const ThreeScene: React.FC<ThreeSceneProps> = ({ position = [0, 0, 2.5], 
     </Canvas>
   );
 };
+
+export default ThreeScene;
