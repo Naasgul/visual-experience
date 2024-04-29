@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useGLTF, Environment, Center, OrbitControls } from "@react-three/drei"; // Import OrbitControls
+import { useGLTF, Environment, Center, OrbitControls, Float } from "@react-three/drei"; // Import OrbitControls
 import Backdrop from "./three-components/Backdrop";
 import CameraRig from "./three-components/CameraRig";
 import Shirt from "./three-components/Shirt";
@@ -36,7 +36,14 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
         <CameraRig>
           <Backdrop />
           <Center>
-            <Shirt />
+            <Float
+              speed={1} // Animation speed, defaults to 1
+              rotationIntensity={0.5} // XYZ rotation intensity, defaults to 1
+              floatIntensity={1} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
+              floatingRange={[-0, 0.1]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
+            >
+              <Shirt />
+            </Float>
           </Center>
         </CameraRig>
       </Canvas>
