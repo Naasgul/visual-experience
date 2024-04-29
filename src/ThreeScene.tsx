@@ -25,6 +25,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
         shadows
         camera={{ position, fov }}
         gl={{ preserveDrawingBuffer: true }}
+        //@ts-ignore event source type error, not yet handled...
         eventSource={document.getElementById("root")}
         eventPrefix="client"
       >
