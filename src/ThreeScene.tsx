@@ -36,7 +36,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
         <CameraRig>
           <Backdrop />
           <Center>
-            <Shirt />
+            <Shirt hexColor={0xDDDDD} />
           </Center>
         </CameraRig>
       </Canvas>
