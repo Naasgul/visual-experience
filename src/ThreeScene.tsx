@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useGLTF, Environment, Center, OrbitControls, Float } from "@react-three/drei"; // Import OrbitControls
-import Backdrop from "./three-components/Backdrop";
+import { useGLTF, Environment, Center, OrbitControls, Float, Sky } from "@react-three/drei"; // Import OrbitControls
+import Lighting from "./three-components/Lighting";
 import CameraRig from "./three-components/CameraRig";
 import Shirt from "./three-components/Shirt";
 import { extend } from "@react-three/fiber";
@@ -33,8 +33,9 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
         <OrbitControls enableZoom={false} />
         {/* Place OrbitControls at the top */}
         <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/potsdamer_platz_1k.hdr" />
+        <Sky distance={450000} sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} />
         <CameraRig>
-          <Backdrop />
+          <Lighting />
           <Center>
             <Float
               speed={1} // Animation speed, defaults to 1
