@@ -12,12 +12,14 @@ interface ThreeSceneProps {
   position?: [number, number, number];
   fov?: number;
   canvasProps?: Record<string, any>;
+  hexColor?: number;
 }
 
 const ThreeScene: React.FC<ThreeSceneProps> = ({
   position = [0, 0, 2.5],
   fov = 25,
   canvasProps = {},
+  hexColor
 }) => {
   return (
     <>
@@ -36,7 +38,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
         <CameraRig>
           <Backdrop />
           <Center>
-            <Shirt hexColor={0xDDDDD} />
+            <Shirt hexColor={hexColor} />
           </Center>
         </CameraRig>
       </Canvas>

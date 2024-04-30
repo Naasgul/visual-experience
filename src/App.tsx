@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import ThreeScene from "./ThreeScene";
 import { Overlay } from "./Overlay";
 
 function App() {
+  const [parentHexColor, setParentHexColor] = useState(0x000000); // Initial color as number
+
   return (
     <>
-      <ThreeScene />
-      <Overlay />
+      <ThreeScene hexColor={parentHexColor} />
+      <Overlay setParentHexColor={setParentHexColor} />
     </>
   );
 }
