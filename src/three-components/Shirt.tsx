@@ -1,15 +1,15 @@
 import * as THREE from "three";
 import { GLTF } from "three-stdlib";
 import { useGLTF } from "@react-three/drei";
-// import { shirt } from "../../public/";
 import React from "react";
 
 interface ShirtProps {
+  hexColor?: number;
   modelPath?: string;
 }
 
 const basePath = import.meta.env.BASE_URL;
-const defaultModelPath = `${basePath}/models/shirt_baked_2.glb`;
+const defaultModelPath = `${basePath}/models/shirt_baked_2.glb`
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -21,10 +21,11 @@ type GLTFResult = GLTF & {
 };
 
 const Shirt: React.FC<ShirtProps> = (
-  { modelPath = defaultModelPath },
+  { modelPath = defaultModelPath, hexColor = 0xFFFFFF },
   props: JSX.IntrinsicElements["group"]
 ) => {
-  const { nodes, materials } = useGLTF(modelPath) as GLTFResult;
+  let { nodes, materials } = useGLTF(modelPath) as GLTFResult;
+  materials.lambert1.color = new THREE.Color( hexColor )
   return (
     <group {...props} dispose={null}>
       <mesh
