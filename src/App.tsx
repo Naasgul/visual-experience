@@ -3,7 +3,7 @@ import ThreeScene from "./ThreeScene";
 import { Overlay } from "./Overlay";
 
 function App() {
-  const [parentHexColor, setParentHexColor] = useState(0x000000); // Initial color as number
+  const [parentHexColor, setParentHexColor] = useState(0x000000); 
 
   return (
     <>

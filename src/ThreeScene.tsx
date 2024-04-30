@@ -5,20 +5,17 @@ import Backdrop from "./three-components/Backdrop";
 import CameraRig from "./three-components/CameraRig";
 import Shirt from "./three-components/Shirt";
 import { extend } from "@react-three/fiber";
-import { Overlay } from "./Overlay";
 extend({ useGLTF, Environment, Center, OrbitControls, Canvas });
 
 interface ThreeSceneProps {
   position?: [number, number, number];
   fov?: number;
-  canvasProps?: Record<string, any>;
   hexColor?: number;
 }
 
 const ThreeScene: React.FC<ThreeSceneProps> = ({
   position = [0, 0, 2.5],
   fov = 25,
-  canvasProps = {},
   hexColor
 }) => {
   return (
