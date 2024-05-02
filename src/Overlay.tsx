@@ -2,9 +2,13 @@ import React, { useState } from "react";
 
 interface OverlayProps {
   setParentHexColor: (color: number) => void;
+  handleFileUpload: (file: File) => void;
 }
 
-export const Overlay: React.FC<OverlayProps> = ({ setParentHexColor }) => {
+export const Overlay: React.FC<OverlayProps> = ({
+  setParentHexColor,
+  handleFileUpload,
+}) => {
   const [selectedColor, setSelectedColor] = useState("#000000");
 
   const handleColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,7 +18,7 @@ export const Overlay: React.FC<OverlayProps> = ({ setParentHexColor }) => {
   };
 
   const hexToNumber = (hex: string): number => {
-    return parseInt(hex.slice(1), 16); // Convert hex string to number
+    return parseInt(hex.slice(1), 16);
   };
 
   const handleDownloadPNG = () => {
@@ -29,6 +33,13 @@ export const Overlay: React.FC<OverlayProps> = ({ setParentHexColor }) => {
       link.click();
     } else {
       console.error("Canvas element not found.");
+    }
+  };
+
+  const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      handleFileUpload(file);
     }
   };
 
@@ -48,12 +59,22 @@ export const Overlay: React.FC<OverlayProps> = ({ setParentHexColor }) => {
           <input
             placeholder="Color"
             type="color"
-            className="color-options"
+            className="color-picker"
             value={selectedColor}
             onChange={handleColorChange}
           />
         </div>
         <button onClick={handleDownloadPNG}>Download</button>
+        <input
+          type="file"
+          onChange={onFileChange}
+          accept="image/*"
+          style={{ display: "none" }}
+          id="file-upload"
+        />
+        <label htmlFor="file-upload" style={{ cursor: "pointer" }}>
+          Upload Image
+        </label>
       </div>
     </div>
   );
