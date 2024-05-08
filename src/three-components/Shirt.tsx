@@ -9,7 +9,7 @@ interface ShirtProps {
 }
 
 const basePath = import.meta.env.BASE_URL;
-const defaultModelPath = `${basePath}/models/shirt_baked_2.glb`
+const defaultModelPath = `${basePath}/models/shirt_baked_2.glb`;
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -21,11 +21,12 @@ type GLTFResult = GLTF & {
 };
 
 const Shirt: React.FC<ShirtProps> = (
-  { modelPath = defaultModelPath, hexColor = 0xFFFFFF },
+  { modelPath = defaultModelPath, hexColor = 0xffffff },
   props: JSX.IntrinsicElements["group"]
 ) => {
   let { nodes, materials } = useGLTF(modelPath) as GLTFResult;
-  materials.lambert1.color = new THREE.Color( hexColor )
+  materials.lambert1.color = new THREE.Color(hexColor);
+
   return (
     <group {...props} dispose={null}>
       <mesh
