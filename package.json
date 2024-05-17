@@ -15,6 +15,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@imgly/background-removal": "^1.5.1",
     "@pmndrs/branding": "0.0.8",
     "@react-three/drei": "^9.105.4",
     "@react-three/fiber": "^8.16.2",

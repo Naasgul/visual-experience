@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import ThreeScene from "./ThreeScene";
 import { Overlay } from "./Overlay";
-import { prominent } from "./color"
+import { prominent } from "./color";
+import { removeBackground } from "@imgly/background-removal";
 
 function App() {
   const [parentHexColor, setParentHexColor] = useState<number>(0x000000);
+  const [processedImageUrl, setProcessedImageUrl] = useState<string>("");
 
   const handleFileUpload = (file: File) => {
     const formData = new FormData();
@@ -18,16 +20,20 @@ function App() {
       .then((data) => {
         console.log("Success:", data);
 
-        // Create a URL for the uploaded image
-        const imageUrl = URL.createObjectURL(file);
-
-        // Extract prominent colors using color.js
-        prominent(imageUrl, { amount: 1, format: 'hex' })
-          .then((colors) => {
-            console.log("Prominent colors:", colors);
-            setParentHexColor(hexToNumber(colors.toString()));
+        removeBackground(file)
+          .then((blob: Blob) => {
+            const imageUrl = URL.createObjectURL(blob);
+            setProcessedImageUrl(imageUrl); // Set processed image URL
+            prominent(imageUrl, { amount: 1, format: "hex" })
+              .then((colors) => {
+                console.log("Prominent colors:", colors);
+                setParentHexColor(hexToNumber(colors.toString()));
+              })
+              .catch((error) =>
+                console.error("Error extracting colors:", error)
+              );
           })
-          .catch((error) => console.error("Error extracting colors:", error));
+          .catch((error) => console.error("Error removing background:", error));
       })
       .catch((error) => console.error("Error:", error));
   };
@@ -38,11 +44,17 @@ function App() {
 
   return (
     <>
-      <ThreeScene hexColor={parentHexColor} />
+      {/* <ThreeScene hexColor={parentHexColor} /> */}
       <Overlay
         setParentHexColor={setParentHexColor}
         handleFileUpload={handleFileUpload}
       />
+      {processedImageUrl && (
+        <div>
+          <h2>Processed Image (Background Removed)</h2>
+          <img src={processedImageUrl} alt="Processed Image" />
+        </div>
+      )}
     </>
   );
 }
