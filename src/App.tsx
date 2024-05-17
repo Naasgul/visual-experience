@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ThreeScene from "./ThreeScene";
 import { Overlay } from "./Overlay";
-import { prominent } from "color.js";
+import { prominent } from "./color"
 
 function App() {
   const [parentHexColor, setParentHexColor] = useState<number>(0x000000);
