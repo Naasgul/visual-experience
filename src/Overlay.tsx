@@ -2,15 +2,23 @@ import React, { useState } from "react";
 
 interface OverlayProps {
   setParentHexColor: (color: number) => void;
+  setParentTexture: (texture: string) => void;
 }
 
-export const Overlay: React.FC<OverlayProps> = ({ setParentHexColor }) => {
+export const Overlay: React.FC<OverlayProps> = ({ setParentHexColor, setParentTexture }) => {
   const [selectedColor, setSelectedColor] = useState("#000000");
+  const [selectedTexture, setSelectedTexture] = useState("None");
 
   const handleColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const color = event.target.value;
     setSelectedColor(color);
     setParentHexColor(hexToNumber(color));
+  };
+
+  const handleTextureChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const texture = event.target.value;
+    setSelectedTexture(texture);
+    setParentTexture(texture);
   };
 
   const hexToNumber = (hex: string): number => {
@@ -52,6 +60,13 @@ export const Overlay: React.FC<OverlayProps> = ({ setParentHexColor }) => {
             value={selectedColor}
             onChange={handleColorChange}
           />
+        </div>
+        <div className="texture-options">
+          <select value={selectedTexture} onChange={handleTextureChange}>
+            <option value="None">None</option>
+            <option value="Cotton">Cotton</option>
+            <option value="Wool">Wool</option>
+          </select>
         </div>
         <button onClick={handleDownloadPNG}>Download</button>
       </div>

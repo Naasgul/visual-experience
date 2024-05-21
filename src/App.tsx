@@ -4,11 +4,12 @@ import { Overlay } from "./Overlay";
 
 function App() {
   const [parentHexColor, setParentHexColor] = useState(0x000000); 
+  const [parentTexture, setParentTexture] = useState('')
 
   return (
     <>
-      <ThreeScene hexColor={parentHexColor} />
-      <Overlay setParentHexColor={setParentHexColor} />
+      <ThreeScene hexColor={parentHexColor} texture={parentTexture} />
+      <Overlay setParentHexColor={setParentHexColor} setParentTexture={setParentTexture} />
     </>
   );
 }
