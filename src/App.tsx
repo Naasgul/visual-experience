@@ -6,7 +6,6 @@ import { removeBackground } from "@imgly/background-removal";
 
 function App() {
   const [parentHexColor, setParentHexColor] = useState<number>(0x000000);
-  const [processedImageUrl, setProcessedImageUrl] = useState<string>("");
 
   const handleFileUpload = (file: File) => {
     const formData = new FormData();
@@ -23,7 +22,6 @@ function App() {
         removeBackground(file)
           .then((blob: Blob) => {
             const imageUrl = URL.createObjectURL(blob);
-            setProcessedImageUrl(imageUrl); // Set processed image URL
             prominent(imageUrl, { amount: 1, format: "hex" })
               .then((colors) => {
                 console.log("Prominent colors:", colors);
@@ -44,17 +42,11 @@ function App() {
 
   return (
     <>
-      {/* <ThreeScene hexColor={parentHexColor} /> */}
+      <ThreeScene hexColor={parentHexColor} />
       <Overlay
         setParentHexColor={setParentHexColor}
         handleFileUpload={handleFileUpload}
       />
-      {processedImageUrl && (
-        <div>
-          <h2>Processed Image (Background Removed)</h2>
-          <img src={processedImageUrl} alt="Processed Image" />
-        </div>
-      )}
     </>
   );
 }
