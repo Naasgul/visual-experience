@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import ThreeScene from "./ThreeScene";
 import { Overlay } from "./Overlay";
 import { prominent } from "./color"
+import * as THREE from "three";
 
 function App() {
   const [parentHexColor, setParentHexColor] = useState<number>(0x000000);
+  const [parentScale, setParentScale] = useState<THREE.Vector3>(new THREE.Vector3( 1, 1, 1 ));
 
   const handleFileUpload = (file: File) => {
     const formData = new FormData();
@@ -38,9 +40,10 @@ function App() {
 
   return (
     <>
-      <ThreeScene hexColor={parentHexColor} />
+      <ThreeScene hexColor={parentHexColor} scale={parentScale}/>
       <Overlay
         setParentHexColor={setParentHexColor}
+        setParentScale={setParentScale}
         handleFileUpload={handleFileUpload}
       />
     </>
