@@ -19,7 +19,7 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
-
+        
         removeBackground(file)
           .then((blob: Blob) => {
             const imageUrl = URL.createObjectURL(blob);
