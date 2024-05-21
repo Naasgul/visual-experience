@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ThreeScene from "./ThreeScene";
 import { Overlay } from "./Overlay";
 import { prominent } from "./color"
+import Pane from "./Pane";
 
 function App() {
   const [parentHexColor, setParentHexColor] = useState<number>(0x000000);
@@ -38,6 +39,7 @@ function App() {
 
   return (
     <>
+      <Pane></Pane>
       <ThreeScene hexColor={parentHexColor} />
       <Overlay
         setParentHexColor={setParentHexColor}
