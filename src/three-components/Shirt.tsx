@@ -7,6 +7,7 @@ interface ShirtProps {
   hexColor?: number;
   modelPath?: string;
   texture?: string;
+  scale: THREE.Vector3;
 }
 
 const basePath = import.meta.env.BASE_URL;
@@ -22,7 +23,7 @@ type GLTFResult = GLTF & {
 };
 
 const Shirt: React.FC<ShirtProps> = (
-  { modelPath = defaultModelPath, hexColor = 0xFFFFFF, texture},
+  { modelPath = defaultModelPath, hexColor = 0xffffff, texture, scale = new THREE.Vector3( 1, 1, 1 )},
   props: JSX.IntrinsicElements["group"]
 ) => {
 
@@ -73,6 +74,7 @@ const Shirt: React.FC<ShirtProps> = (
         geometry={nodes.T_Shirt_male.geometry}
         material={materials.lambert1}
         position={[0.419, 0, 0]}
+        scale={scale}
         rotation={[Math.PI / 2, 0, 0]}
       />
     </group>

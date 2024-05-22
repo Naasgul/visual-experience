@@ -1,14 +1,26 @@
 import React, { useState } from "react";
+import * as THREE from "three";
 
 interface OverlayProps {
   setParentHexColor: (color: number) => void;
+  setParentScale: (scale: THREE.Vector3) => void;
   handleFileUpload: (file: File) => void;
   setParentTexture: (texture: string) => void;
 }
 
-export const Overlay: React.FC<OverlayProps> = ({ setParentHexColor, handleFileUpload, setParentTexture }) => {
+export const Overlay: React.FC<OverlayProps> = ({
+  setParentHexColor,
+  setParentScale,
+  handleFileUpload,
+  setParentTexture
+}) => {
   const [selectedColor, setSelectedColor] = useState("#000000");
+  const [scale, setScale] = useState(new THREE.Vector3(1, 1, 1));
   const [selectedTexture, setSelectedTexture] = useState("None");
+
+  const hexToNumber = (hex: string): number => {
+    return parseInt(hex.slice(1), 16);
+  };
 
   const handleColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const color = event.target.value;
@@ -22,8 +34,11 @@ export const Overlay: React.FC<OverlayProps> = ({ setParentHexColor, handleFileU
     setParentTexture(texture);
   };
 
-  const hexToNumber = (hex: string): number => {
-    return parseInt(hex.slice(1), 16);
+  const handleScaleChange = (axis: 'x' | 'y' | 'z', value: number) => {
+    const newScale = scale.clone();
+    newScale[axis] = value;
+    setScale(newScale);
+    setParentScale(newScale);
   };
 
   const handleDownloadPNG = () => {
@@ -75,6 +90,41 @@ export const Overlay: React.FC<OverlayProps> = ({ setParentHexColor, handleFileU
             <option value="Cotton">Cotton</option>
             <option value="Wool">Wool</option>
           </select>
+        </div>
+        <div className="scale-sliders">
+          <label>
+            X:
+            <input
+              type="range"
+              min="0"
+              max="2"
+              step="0.01"
+              value={scale.x}
+              onChange={(e) => handleScaleChange('x', parseFloat(e.target.value))}
+            />
+          </label>
+          <label>
+            Y:
+            <input
+              type="range"
+              min="0"
+              max="2"
+              step="0.01"
+              value={scale.y}
+              onChange={(e) => handleScaleChange('y', parseFloat(e.target.value))}
+            />
+          </label>
+          <label>
+            Z:
+            <input
+              type="range"
+              min="0"
+              max="2"
+              step="0.01"
+              value={scale.z}
+              onChange={(e) => handleScaleChange('z', parseFloat(e.target.value))}
+            />
+          </label>
         </div>
         <button onClick={handleDownloadPNG}>Download</button>
         <input
