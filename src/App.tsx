@@ -6,6 +6,7 @@ import { removeBackground } from "@imgly/background-removal";
 
 function App() {
   const [parentHexColor, setParentHexColor] = useState<number>(0x000000);
+  const [parentTexture, setParentTexture] = useState('')
 
   const handleFileUpload = async (file: File) => {
     try {
@@ -64,13 +65,13 @@ function App() {
 
   return (
     <>
-      <ThreeScene hexColor={parentHexColor} />
+      <ThreeScene hexColor={parentHexColor} texture={parentTexture} />
       <Overlay
+        setParentTexture={setParentTexture} 
         setParentHexColor={setParentHexColor}
         handleFileUpload={handleFileUpload}
       />
     </>
-  );
-}
+)}
 
 export default App;

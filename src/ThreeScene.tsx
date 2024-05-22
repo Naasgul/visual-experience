@@ -11,12 +11,14 @@ interface ThreeSceneProps {
   position?: [number, number, number];
   fov?: number;
   hexColor?: number;
+  texture?: string;
 }
 
 const ThreeScene: React.FC<ThreeSceneProps> = ({
   position = [0, 0, 2.5],
   fov = 25,
-  hexColor
+  hexColor,
+  texture
 }) => {
   return (
     <>
@@ -42,7 +44,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
               floatIntensity={1} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
               floatingRange={[-0, 0.1]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
             >
-              <Shirt hexColor={hexColor} />
+              <Shirt hexColor={hexColor} texture={texture} />
             </Float>
           </Center>
         </CameraRig>
