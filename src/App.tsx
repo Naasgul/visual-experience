@@ -2,34 +2,63 @@ import React, { useState } from "react";
 import ThreeScene from "./ThreeScene";
 import { prominent } from "./color"
 import {Pane} from "./Pane";
+import { removeBackground } from "@imgly/background-removal";
+import * as THREE from "three";
 
 function App() {
   const [parentHexColor, setParentHexColor] = useState<number>(0x000000);
+  const [parentTexture, setParentTexture] = useState('')
+  const [parentScale, setParentScale] = useState<THREE.Vector3>(new THREE.Vector3( 1, 1, 1 ));
 
-  const handleFileUpload = (file: File) => {
+  const handleFileUpload = async (file: File) => {
+    try {
+      const uploadResponse = await uploadFile(file);
+      console.log("Upload Success:", uploadResponse);
+
+      const backgroundRemovedBlob = await removeBackground(file);
+      const imageUrl = URL.createObjectURL(backgroundRemovedBlob);
+
+      const colors = await extractProminentColor(imageUrl);
+      console.log("Prominent colors:", colors);
+
+      if (colors && colors.length > 0) {
+        const hexColor = hexToNumber(colors.toString());
+        setParentHexColor(hexColor);
+      } else {
+        console.error("No colors found");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const uploadFile = async (file: File): Promise<any> => {
     const formData = new FormData();
     formData.append("image", file);
 
-    fetch("/upload", {
+    const response = await fetch("/upload", {
       method: "POST",
       body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
+    });
 
-        // Create a URL for the uploaded image
-        const imageUrl = URL.createObjectURL(file);
+    if (!response.ok) {
+      throw new Error("File upload failed");
+    }
 
-        // Extract prominent colors using color.js
-        prominent(imageUrl, { amount: 1, format: 'hex' })
-          .then((colors) => {
-            console.log("Prominent colors:", colors);
-            setParentHexColor(hexToNumber(colors.toString()));
-          })
-          .catch((error) => console.error("Error extracting colors:", error));
-      })
-      .catch((error) => console.error("Error:", error));
+    return response.json();
+  };
+
+  const extractProminentColor = async (imageUrl: string) => {
+    try {
+      const colors = await prominent(imageUrl, { amount: 1, format: "hex" });
+      return colors;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error("Error extracting colors: " + error.message);
+      } else {
+        throw new Error("Error extracting colors: Unknown error");
+      }
+    }
   };
 
   const hexToNumber = (hex: string): number => {
@@ -39,10 +68,12 @@ function App() {
   return (
     <>
       <Pane  setParentHexColor={setParentHexColor}
-        handleFileUpload={handleFileUpload}></Pane>
-      <ThreeScene hexColor={parentHexColor} />
+        handleFileUpload={handleFileUpload}
+        setParentScale={setParentScale}
+        setParentTexture={setParentTexture} 
+      ></Pane>
+      <ThreeScene hexColor={parentHexColor} texture={parentTexture} scale={parentScale} />
     </>
-  );
-}
+)}
 
 export default App;

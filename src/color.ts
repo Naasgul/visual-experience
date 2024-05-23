@@ -74,19 +74,25 @@ const getImageData = (src: Url): Promise<Data> =>
 
 const getAverage = (data: Data, args: Args): Output => {
   const gap = 4 * args.sample
-  const amount = data.length / gap
+  let count = 0
   const rgb = { r: 0, g: 0, b: 0 }
 
   for (let i = 0; i < data.length; i += gap) {
-    rgb.r += data[i]
-    rgb.g += data[i + 1]
-    rgb.b += data[i + 2]
+    const alpha = data[i + 3]
+    if (alpha > 0) {
+      rgb.r += data[i]
+      rgb.g += data[i + 1]
+      rgb.b += data[i + 2]
+      count++
+    }
   }
 
+  if (count === 0) return format([[0, 0, 0]], args)
+
   return format([[
-    Math.round(rgb.r / amount),
-    Math.round(rgb.g / amount),
-    Math.round(rgb.b / amount)
+    Math.round(rgb.r / count),
+    Math.round(rgb.g / count),
+    Math.round(rgb.b / count)
   ]], args)
 }
 
@@ -95,13 +101,16 @@ const getProminent = (data: Data, args: Args): Output => {
   const colors: { [key: string]: number } = {}
 
   for (let i = 0; i < data.length; i += gap) {
-    const rgb = [
-      group(data[i], args.group),
-      group(data[i + 1], args.group),
-      group(data[i + 2], args.group),
-    ].join()
+    const alpha = data[i + 3]
+    if (alpha > 0) { 
+      const rgb = [
+        group(data[i], args.group),
+        group(data[i + 1], args.group),
+        group(data[i + 2], args.group),
+      ].join()
 
-    colors[rgb] = colors[rgb] ? colors[rgb] + 1 : 1
+      colors[rgb] = colors[rgb] ? colors[rgb] + 1 : 1
+    }
   }
 
   return format(
