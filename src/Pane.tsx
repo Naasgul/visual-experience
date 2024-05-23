@@ -1,13 +1,18 @@
 import { useControls, button } from 'leva'
 import React, { useEffect } from 'react'
+import * as THREE from "three";
 
 interface PaneProps {
   setParentHexColor: (color: number) => void;
+  setParentScale: (scale: THREE.Vector3) => void;
+  setParentTexture: (texture: string) => void;
   handleFileUpload: (file: File) => void;
 }
 
 export const Pane: React.FC<PaneProps> = ({
   setParentHexColor,
+  setParentScale,
+  setParentTexture,
   handleFileUpload,
 }) =>  {
 
@@ -30,12 +35,22 @@ export const Pane: React.FC<PaneProps> = ({
     }
   };
 
-  const { color, upload } = useControls({ 
+  const { color, upload, scale, texture } = useControls({ 
     color: '#fff', 
+    texture: {
+      value: 'None',
+      options: ['None', 'Wool', 'Cotton'], // Default options
+    }, 
+    scale: {
+      x: 1,
+      y: 1,
+      z: 1,
+    }, 
     upload: {
       image: undefined
     },
     download: button(() => handleDownloadPNG()),
+    
   })
 
   async function blobUrlToFile(blobUrl: string): Promise<File> {
@@ -48,21 +63,35 @@ export const Pane: React.FC<PaneProps> = ({
 
   useEffect(() => {
     if(upload){
-      console.log("Uploaded", upload)
+      console.log("From Pane Upload")
       blobUrlToFile(upload)
         .then((file) => {
           handleFileUpload(file)
-          console.log("File:", file);
+          console.log("From Pane File:", file);
         })
         .catch((error) => {
           console.error("Error:", error);
         });
     }
+  }, [upload]);
+
+  useEffect(() => {
+    if(scale){
+      setParentScale(new THREE.Vector3(scale.x, scale.y, scale.z))
+    }
+  }, [scale])
+
+  useEffect(() => {
+    if(texture){
+      setParentTexture(texture)
+    }
+  }, [texture])
+
+  useEffect(() => {
     if(color){
-      console.log("Color:", color)
       setParentHexColor(hexToNumber(color));
     }
-  }, [upload, color]);
+  }, [color])
     
 
   return (
