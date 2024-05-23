@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ThreeScene from "./ThreeScene";
-import { Overlay } from "./Overlay";
-import { prominent } from "./color";
+import { prominent } from "./color"
+import {Pane} from "./Pane";
 import { removeBackground } from "@imgly/background-removal";
 import * as THREE from "three";
 
@@ -67,13 +67,12 @@ function App() {
 
   return (
     <>
-      <ThreeScene hexColor={parentHexColor} texture={parentTexture} scale={parentScale} />
-      <Overlay
-        setParentTexture={setParentTexture} 
-        setParentHexColor={setParentHexColor}
-        setParentScale={setParentScale}
+      <Pane  setParentHexColor={setParentHexColor}
         handleFileUpload={handleFileUpload}
-      />
+        setParentScale={setParentScale}
+        setParentTexture={setParentTexture} 
+      ></Pane>
+      <ThreeScene hexColor={parentHexColor} texture={parentTexture} scale={parentScale} />
     </>
 )}
 
